@@ -27,13 +27,13 @@ spec:
             - name: PGADMIN_DEFAULT_EMAIL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secret.name }}
+                  name: {{ include "db.secretName" . }}
                   key: PGADMIN_DEFAULT_EMAIL
 
             - name: PGADMIN_DEFAULT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secret.name }}
+                  name: {{ include "db.secretName" . }}
                   key: PGADMIN_DEFAULT_PASSWORD
 
             - name: PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION
