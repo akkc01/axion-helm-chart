@@ -9,7 +9,7 @@ labels:
   
 image:
   repository: amitkkc01/axion-simulator
-  tag: "2.1"
+  tag: "aa57d82"
   
   pullPolicy: IfNotPresent
 
