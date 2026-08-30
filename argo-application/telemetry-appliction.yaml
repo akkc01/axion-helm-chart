@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/akkc01/axion-helm-chart.git
     targetRevision: main
-    path: telemetry
+    path: telemetry-service
 
     helm:
       releaseName: dev
