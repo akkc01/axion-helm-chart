@@ -10,7 +10,7 @@ names:
 replicaCount: 1
 
 image:
-  repository: amitkkc01/axion-ingest
+  repository: amitkkc01/axion-ingestion
   tag: "5df2ed0"
   pullPolicy: IfNotPresent
 
