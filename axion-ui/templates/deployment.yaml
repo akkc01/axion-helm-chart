@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: name: {{ include "axion.deploymentName" . }}
+  name: {{ include "axion.deploymentName" . }}
   namespace: {{ .Values.namespace }}
 
 spec:
