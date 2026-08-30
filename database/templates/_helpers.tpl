@@ -25,7 +25,7 @@ postgres
 postgress Deployment name
 */}}
 {{- define "postgres.deploymentName" -}}
-{{ include "postgres.name" . }}-{{ .Release.Name }}-{{ include "axion.name" . }}-deploy
+{{ .Release.Name }}-{{ include "postgres.name" . }}-{{ include "axion.name" . }}-deploy
 {{- end }}
 
 
@@ -33,7 +33,7 @@ postgress Deployment name
 pgadmin Deployment name
 */}}
 {{- define "pgadmin.deploymentName" -}}
-{{ include "pgadmin.name" . }}-{{ .Release.Name }}-{{ include "axion.name" . }}-deploy
+{{ .Release.Name }}-{{ include "pgadmin.name" . }}-{{ include "axion.name" . }}-deploy
 {{- end }}
 
 

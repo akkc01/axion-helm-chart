@@ -2,7 +2,7 @@
 Base application name
 */}}
 {{- define "axion.name" -}}
-axion
+axion-ui
 {{- end }}
 
 

@@ -3,7 +3,7 @@
 Base application name
 */}}
 {{- define "axion.name" -}}
-axion
+axion-ingestion
 {{- end }}
 
 
