@@ -23,7 +23,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ include "axion.serviceName" . }}
+                name: {{ include "axion.serviceName" $ }}
                 port:
                   number: {{ .service.port }}
           {{- end }}
