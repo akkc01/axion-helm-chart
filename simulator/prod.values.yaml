@@ -1,5 +1,5 @@
 # Application
-namespace: prod-akkc
+namespace: axion-prod
 
 # Deployment
 replicaCount: 2

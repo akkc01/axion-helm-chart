@@ -1,4 +1,4 @@
-namespace: dev-akkc
+namespace: axion-dev
 
 replicaCount: 1
 

@@ -11,7 +11,7 @@ spec:
   scaleTargetRef:
     apiVersion: {{ .Values.hpa.scaleTargetRef.apiVersion }}
     kind: {{ .Values.hpa.scaleTargetRef.kind }}
-    name: {{ .Values.hpa.scaleTargetRef.name }}
+    name: {{ include "telemetry.deploymentName" . }}
 
   minReplicas: {{ .Values.hpa.minReplicas }}
 

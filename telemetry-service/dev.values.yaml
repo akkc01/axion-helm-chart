@@ -1,4 +1,4 @@
-namespace: akkc-dev
+namespace: axion-dev
 
 deployment:
   replicas: 1

@@ -1,4 +1,4 @@
-namespace: prod-akkc
+namespace: axion-prod
 
 deployment:
   replicas: 2
