@@ -23,7 +23,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ .service.name }}
+                name: {{ include "pgadmin.serviceName" $ }}
                 port:
                   number: {{ .service.port }}
           {{- end }}
