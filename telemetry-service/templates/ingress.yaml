@@ -23,7 +23,7 @@ spec:
 
             backend:
               service:
-                name: {{ .Values.service.name }}
+                name: {{ include "telemetry.serviceName" . }}
                 port:
                   number: {{ .Values.service.port }}
 
