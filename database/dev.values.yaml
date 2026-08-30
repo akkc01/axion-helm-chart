@@ -9,10 +9,6 @@ database:
 pgadmin:
   email: jarvis@gmail.com
   password: jarvis123
-
-  deployment:
-    name: pgadmin-deploy
-
   replicas: 1
 
   labels:
@@ -22,7 +18,6 @@ pgadmin:
     name: pgadmin
 
   image: dpage/pgadmin4:9.17
-
   containerPort: 80
 
   config:
