@@ -1,0 +1,71 @@
+namespace: akkc
+
+deployment:
+  replicas: 1
+
+  labels:
+    app: telemetry
+
+container:
+  name: telemetry-container
+
+  port: 8000
+
+image:
+  repository: amitkkc01/axion-telemetry
+  tag: "1.2"
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+
+service:
+ 
+  selector:
+    app: telemetry
+
+  port: 80
+  targetPort: 8000
+
+  type: ClusterIP
+
+
+hpa:
+  enabled: true
+
+  minReplicas: 1
+  maxReplicas: 5
+
+  targetCPUUtilizationPercentage: 70
+
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: telemetry-deploy
+
+
+
+ingress:
+  enabled: true
+
+  ingressClassName: azure-application-gateway
+
+  annotations:
+    appgw.ingress.kubernetes.io/health-probe-path: "/dashboard/summary"
+
+  host: dev.telemetry.theakkc.space
+
+  path: "/"
+  pathType: Prefix
+
+
+
+database:
+  url: "postgresql://jarvis:jarvis123@postgres-svc:5432/jarvis"

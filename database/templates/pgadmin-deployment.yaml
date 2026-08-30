@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pgadmin.deploymentName" . }}
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: {{ .Values.pgadmin.replicas }}
+
+  selector:
+    matchLabels:
+      app: {{ .Values.pgadmin.labels.app }}
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.pgadmin.labels.app }}
+
+    spec:
+      containers:
+        - name: {{ .Values.pgadmin.container.name }}
+          image: {{ .Values.pgadmin.image }}
+          ports:
+            - containerPort: {{ .Values.pgadmin.containerPort }}
+
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: PGADMIN_DEFAULT_EMAIL
+
+            - name: PGADMIN_DEFAULT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: PGADMIN_DEFAULT_PASSWORD
+
+            - name: PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION
+              value: {{ .Values.pgadmin.config.enhancedCookieProtection | quote }}
+
+            # Reverse proxy / AGIC
+            # - name: PGADMIN_CONFIG_PROXY_X_FOR_COUNT
+            #   value: "1"
+            #
+            # - name: PGADMIN_CONFIG_PROXY_X_PROTO_COUNT
+            #   value: "1"
+            #
+            # - name: PGADMIN_CONFIG_PROXY_X_HOST_COUNT
+            #   value: "1"
+            #
+            # - name: PGADMIN_CONFIG_PROXY_X_PORT_COUNT
+            #   value: "1"
+            #
+            # - name: GUNICORN_THREADS
+            #   value: "1"
+            #
+            # - name: GUNICORN_TIMEOUT
+            #   value: "90"
+
+          volumeMounts:
+            - name: pgadmin-data
+              mountPath: /var/lib/pgadmin
+
+      volumes:
+        - name: pgadmin-data
+          emptyDir: {}

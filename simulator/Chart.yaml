@@ -1,0 +1,6 @@
+apiVersion: v2
+name: axion-simulation
+description: Helm chart for Axion Simulation application
+type: application
+version: 0.1.0
+appVersion: "2.0"

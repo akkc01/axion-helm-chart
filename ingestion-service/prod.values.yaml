@@ -1,0 +1,62 @@
+# Application
+namespace: akkc
+
+names:
+  deployment: axion-ingestion-deploy
+  service: ingestion-svc
+  ingress: axion-agic1-ingress
+
+# Deployment
+replicaCount: 2
+
+image:
+  repository: amitkkc01/axion-ingest
+  tag: "1.5"
+  pullPolicy: IfNotPresent
+
+container:
+  name: ingestion-container
+  port: 8000
+
+# Service
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+# Resources
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+# HPA
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# Ingress
+ingress:
+  enabled: true
+
+  ingressClassName: azure-application-gateway
+
+  annotations:
+    appgw.ingress.kubernetes.io/health-probe-path: "/health"
+
+  hosts:
+    - host: prod.ingest.theakkc.space
+      paths:
+        - path: "/"
+          pathType: Prefix
+          service:
+            port: 80
+
+database:
+  url: "postgresql://jarvis:jarvis123@postgres-svc:5432/jarvis"

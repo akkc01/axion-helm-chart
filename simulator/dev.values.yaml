@@ -1,0 +1,21 @@
+# Application
+namespace: akkc
+
+# Deployment
+replicaCount: 1
+
+labels:
+  app: simulation
+  
+image:
+  repository: amitkkc01/axion-simulator
+  tag: "2.1"
+  
+  pullPolicy: IfNotPresent
+
+container:
+  name: simulation-container
+
+
+api:
+  url: "http://dev.ingest.theakkc.space/api/v1/telemetry/ingest"

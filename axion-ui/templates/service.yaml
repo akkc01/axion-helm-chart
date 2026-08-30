@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: {{ include "axion.serviceName" . }}
+  namespace: {{ .Values.namespace }}
+
+spec:
+  selector:
+    {{- toYaml .Values.labels | nindent 4 }}
+
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+
+  type: {{ .Values.service.type }}

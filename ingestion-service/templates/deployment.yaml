@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ include "ingestion.deploymentName" . }}
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: {{ .Values.names.deployment }}
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.names.deployment }}
+
+    spec:
+      containers:
+        - name: {{ .Values.container.name }}
+
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - name: http
+              containerPort: {{ .Values.container.port }}
+              protocol: TCP
+
+          env:
+            - name: DATABASE_URL
+              value: {{ .Values.database.url | quote }}
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
