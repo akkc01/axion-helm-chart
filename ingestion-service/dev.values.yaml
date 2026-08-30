@@ -11,7 +11,7 @@ replicaCount: 1
 
 image:
   repository: amitkkc01/axion-ingest
-  tag: "aa57d82"
+  tag: "5df2ed0"
   pullPolicy: IfNotPresent
 
 container:
