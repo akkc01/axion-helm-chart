@@ -13,7 +13,7 @@ container:
 
 image:
   repository: amitkkc01/axion-telemetry
-  tag: "1.2"
+  tag: "aa57d82"
   pullPolicy: IfNotPresent
 
 resources:
