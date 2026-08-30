@@ -1,4 +1,4 @@
-namespace: akkc
+namespace: prod-akkc
 
 replicaCount: 2
 

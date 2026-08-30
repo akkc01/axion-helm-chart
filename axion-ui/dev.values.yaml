@@ -1,4 +1,4 @@
-namespace: akkc
+namespace: dev-akkc
 
 replicaCount: 1
 

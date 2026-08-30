@@ -1,5 +1,5 @@
 # Application
-namespace: akkc
+namespace: prod-akkc
 
 names:
   deployment: axion-ingestion-deploy

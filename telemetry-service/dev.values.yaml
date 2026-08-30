@@ -1,4 +1,4 @@
-namespace: akkc
+namespace: akkc-dev
 
 deployment:
   replicas: 1

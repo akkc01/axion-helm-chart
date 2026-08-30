@@ -1,5 +1,5 @@
 # Application
-namespace: akkc
+namespace: prod-akkc
 
 # Deployment
 replicaCount: 2
