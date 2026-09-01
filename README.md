@@ -1,4 +1,4 @@
-Argo CD — App of Apps Deployment
+# Argo CD — App of Apps Deployment
 
 This repository contains the Kubernetes and Argo CD configuration required to deploy multiple microservices using the **Argo CD App of Apps pattern**.
 
@@ -6,7 +6,7 @@ The main Argo CD application (`axion-app-of-apps`) manages all individual micro-
 
 ---
 
-### How it works
+### How It Works
 
 ```text
                     Argo CD
@@ -23,7 +23,7 @@ The main Argo CD application (`axion-app-of-apps`) manages all individual micro-
     Deployment     Deployment     Deployment
 ```
 
-The `axion-app-of-apps` acts as the **parent application** and automatically manages the child applications present inside the `applications` directory.
+The `axion-app-of-apps` acts as the **parent application** and manages the child applications present inside the `applications` directory.
 
 ---
 
@@ -31,27 +31,15 @@ The `axion-app-of-apps` acts as the **parent application** and automatically man
 
 Follow the steps below to deploy the complete Argo CD setup.
 
----
-
 ## 1. Connect to Your Kubernetes Cluster
 
 First, configure `kubectl` to connect to your Kubernetes cluster.
-
-For example:
 
 ```bash
 kubectl get nodes
 ```
 
-You should see the nodes of your cluster:
-
-```text
-NAME           STATUS   ROLES    AGE   VERSION
-node-1         Ready    <none>   ...   ...
-node-2         Ready    <none>   ...   ...
-```
-
-Verify that your cluster is accessible before proceeding.
+You should see the nodes of your cluster.
 
 ---
 
@@ -94,8 +82,6 @@ Apply the Argo CD Ingress configuration:
 kubectl apply -f argocd-ingress.yaml
 ```
 
-The ingress configuration exposes the Argo CD server through your public domain.
-
 Verify the ingress:
 
 ```bash
@@ -113,8 +99,6 @@ argocd-ingress   nginx   argocd.example.com
 
 Make sure your DNS record points your domain to the public IP address of the Kubernetes Ingress Controller.
 
-Example:
-
 ```text
 argocd.example.com  →  <INGRESS_PUBLIC_IP>
 ```
@@ -125,7 +109,7 @@ After DNS propagation, Argo CD should be accessible through:
 https://argocd.example.com
 ```
 
-> Make sure your `argocd-ingress.yaml` is configured with your actual domain name and TLS settings.
+> Make sure `argocd-ingress.yaml` is configured with your actual domain name and TLS settings.
 
 ---
 
@@ -143,13 +127,7 @@ Verify:
 kubectl get namespace
 ```
 
-You should see:
-
-```text
-dev
-```
-
-This namespace will be used for deploying the development microservices.
+You should see the `dev` namespace.
 
 ---
 
@@ -167,7 +145,7 @@ Verify the application:
 kubectl get applications -n argocd
 ```
 
-You can also check the Argo CD Application:
+You can also check the App of Apps directly:
 
 ```bash
 kubectl get application axion-app-of-apps -n argocd
@@ -177,9 +155,9 @@ kubectl get application axion-app-of-apps -n argocd
 
 # 🎯 App of Apps Pattern
 
-Once `axion-app-of-apps.yaml` is applied, Argo CD will use it as the **parent application**.
+Once `axion-app-of-apps.yaml` is applied, Argo CD uses it as the **parent application**.
 
-It will automatically discover and manage the child applications inside:
+It manages the child applications inside:
 
 ```text
 applications/
@@ -218,7 +196,7 @@ You only need to apply:
 kubectl apply -f axion-app-of-apps.yaml
 ```
 
-Argo CD takes care of creating and managing the individual applications.
+Argo CD takes care of managing the individual applications.
 
 ---
 
@@ -309,16 +287,16 @@ kubectl apply -f axion-app-of-apps.yaml
 
 After completing all the steps:
 
-* Argo CD is installed in the cluster.
-* Argo CD is accessible through a public domain.
-* The `dev` namespace is created.
-* `axion-app-of-apps` is deployed.
-* All micro-applications inside the `applications` folder are managed by Argo CD.
-* Application deployments can be managed using the GitOps workflow.
+- Argo CD is installed in the cluster.
+- Argo CD is accessible through a public domain.
+- The `dev` namespace is created.
+- `axion-app-of-apps` is deployed.
+- All micro-applications inside the `applications` folder are managed by Argo CD.
+- Application deployments can be managed using the GitOps workflow.
 
 ---
 
-## 🛠 Useful Commands
+# 🛠 Useful Commands
 
 ### Check Argo CD Pods
 
@@ -352,7 +330,7 @@ kubectl get ingress -n argocd
 
 ---
 
-## 📌 Important
+# 📌 Important
 
 Before deploying, make sure:
 
@@ -361,11 +339,11 @@ Before deploying, make sure:
 3. DNS is configured for the Argo CD domain.
 4. `argocd-ingress.yaml` contains the correct domain.
 5. `axion-app-of-apps.yaml` points to the correct Git repository and `applications` path.
-6. The required Kubernetes manifests/Helm charts exist inside the `applications` directory.
+6. The required Kubernetes manifests or Helm charts exist inside the `applications` directory.
 
 ---
 
-## 🎉 Architecture Summary
+# 🎉 Architecture Summary
 
 ```text
                     Git Repository
@@ -375,7 +353,7 @@ Before deploying, make sure:
                           │
                           ▼
                 ┌──────────────────┐
-                │  App of Apps     │
+                │    App of Apps   │
                 │ axion-app-of-apps│
                 └────────┬─────────┘
                          │
@@ -392,5 +370,3 @@ Before deploying, make sure:
 ```
 
 **One parent application → Multiple child applications → Complete microservices deployment.**
-
-Agar chaho, main is README ko **aur production-grade** bana sakta hoon jisme **Prerequisites, Argo CD login, initial admin password, TLS/HTTPS, repository authentication (private Git repo), sync/auto-sync, troubleshooting aur architecture diagram** bhi include kar doon.
