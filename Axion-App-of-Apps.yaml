@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: axion-app-of-apps
+  namespace: argocd
+
+spec:
+  project: default
+
+  # Root App Git ke applications/ folder ko watch karegi
+  source:
+    repoURL: https://github.com/akkc01/axion-helm-chart.git
+    targetRevision: main
+    path: applications
+
+    # applications/ ke andar jitne folders/files hain,
+    # unke andar Application manifests ko process karega
+    directory:
+      recurse: true
+
+  # Root Application khud Argo CD namespace mein rahegi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  # Root App ke changes automatically sync honge
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
