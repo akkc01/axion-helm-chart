@@ -1,4 +1,4 @@
-# Argo CD — App of Apps Deployment
+# Axion with Argo CD — App of Apps Deployment
 
 This repository contains the Kubernetes and Argo CD configuration required to deploy multiple microservices using the **Argo CD App of Apps pattern**.
 
