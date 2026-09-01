@@ -9,18 +9,18 @@ The main Argo CD application (`axion-app-of-apps`) manages all individual micro-
 ### How It Works
 
 ```text
-                    Argo CD
-                       │
-                       │
-             axion-app-of-apps
-                       │
-        ┌──────────────┼──────────────┐
-        │              │              │
-        ▼              ▼              ▼
-      App 1          App 2          App 3
-        │              │              │
-        ▼              ▼              ▼
-    Deployment     Deployment     Deployment
+                         Argo CD
+                            │
+                            │
+                  axion-app-of-apps
+                            │
+          ┌─────────────────┼─────────────────┐
+          │        │        │        │        │
+          ▼        ▼        ▼        ▼        ▼
+        App 1    App 2    App 3    App 4    App 5
+          │        │        │        │        │
+          ▼        ▼        ▼        ▼        ▼
+     Deployment Deployment Deployment Deployment Deployment
 ```
 
 The `axion-app-of-apps` acts as the **parent application** and manages the child applications present inside the `applications` directory.
@@ -167,11 +167,11 @@ For example:
 
 ```text
 applications/
-├── frontend/
-├── backend/
-├── auth-service/
-├── payment-service/
-└── notification-service/
+├── axion-ui/
+├── databsse/
+├── simulator/
+├── ingestion-service/
+└── telemetry-service/
 ```
 
 The deployment flow becomes:
@@ -179,15 +179,15 @@ The deployment flow becomes:
 ```text
 axion-app-of-apps
         │
-        ├── frontend
+        ├── axion-ui
         │
-        ├── backend
+        ├── axion-db
         │
-        ├── auth-service
+        ├── axion-simulator
         │
-        ├── payment-service
+        ├── axion-ingestion
         │
-        └── notification-service
+        └── axion-telemetry
 ```
 
 You only need to apply:
