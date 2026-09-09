@@ -28,5 +28,9 @@ spec:
               containerPort: {{ .Values.container.port }}
               protocol: TCP
 
+          env:
+            - name: API_BASE
+              value: {{ .Values.API_BASE.url | quote }}
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
