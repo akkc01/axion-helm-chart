@@ -1,0 +1,150 @@
+name: build-pipeline
+
+trigger:
+  branches:
+    include:
+      - main
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  name: dev-aks-akkc-agent
+
+stages:
+- stage: terraform_init_validate
+  displayName: "Terraform init"
+
+  jobs:
+  - job: terraform_init_validate_fmt
+    displayName: "Terraform init valdate fmt"
+    steps:
+    - checkout: self
+      displayName: "Checkout Repository"
+    
+    - task: TerraformTask@5
+      displayName: "Terraform init"
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
+        backendServiceArm: 'azure-ado-sc-unnaoit'
+        backendAzureRmResourceGroupName: 'akkc'
+        backendAzureRmStorageAccountName: 'azureadostgtest01'
+        backendAzureRmContainerName: 'terraformstate'
+        backendAzureRmKey: 'dev.terraform.tfstate'
+
+    - task: TerraformTask@5
+      displayName: "Terraform validate"
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
+
+    # - task: TerraformTask@5
+    #   displayName: "Terraform fmt"
+    #   inputs:
+    #     provider: 'azurerm'
+    #     command: 'custom'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/'
+    #     outputTo: 'console'
+    #     customCommand: 'fmt -recursive'
+    #     environmentServiceNameAzureRM: 'azure-ado-sc-unnaoit'
+
+
+    - script: |
+        cd "$(System.DefaultWorkingDirectory)"
+        terraform fmt -recursive
+      displayName: "Terraform fmt"
+
+- stage: infra_scanning
+  dependsOn: terraform_init_validate
+  displayName: "Security Scanning"
+
+  jobs:
+  - job: security_scanning
+    displayName: "Infra Security Scanning"
+    steps:
+    - checkout: self
+      displayName: "Checkout Repository"
+  
+    # # TFLint
+    # - task: TFLint@1
+    #   displayName: "TFLint"
+    #   inputs:
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)'
+    #     recursive: true
+
+    # tfsec
+    # - task: tfsec@1
+    #   displayName: "tfsec scan"
+    #   inputs:
+    #     version: 'v1.26.0'
+    #     dir: '$(System.DefaultWorkingDirectory)'
+    #     args: ''
+
+- stage: terraform_plan
+  dependsOn: infra_scanning
+  displayName: "Terraform Plan"
+
+  jobs:
+  - job: terraform_plan
+    displayName: "Terraform init and Plan"
+    steps:
+    - checkout: self
+      displayName: "Checkout Repository"
+    
+    - task: TerraformTask@5
+      displayName: "Terraform init"
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
+        backendServiceArm: 'azure-ado-sc-unnaoit'
+        backendAzureRmResourceGroupName: 'akkc'
+        backendAzureRmStorageAccountName: 'azureadostgtest01'
+        backendAzureRmContainerName: 'terraformstate'
+        backendAzureRmKey: 'dev.terraform.tfstate'
+
+    - task: TerraformTask@5
+      displayName: "Terraform plan"
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
+        environmentServiceNameAzureRM: 'azure-ado-sc-unnaoit'
+
+- stage: terraform_apply
+  dependsOn: terraform_plan
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  displayName: "Terraform Apply"
+
+  jobs:
+  - job: terraform_apply
+    displayName: "Terraform init and Apply"
+    steps:
+    - checkout: self
+      displayName: "Checkout Repository"
+    
+    - task: TerraformTask@5
+      displayName: "Terraform init"
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
+        backendServiceArm: 'azure-ado-sc-unnaoit'
+        backendAzureRmResourceGroupName: 'akkc'
+        backendAzureRmStorageAccountName: 'azureadostgtest01'
+        backendAzureRmContainerName: 'terraformstate'
+        backendAzureRmKey: 'dev.terraform.tfstate'
+
+    - task: TerraformTask@5
+      displayName: "Terraform apply"
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
+        commandOptions: '--auto-approve'
+        environmentServiceNameAzureRM: 'azure-ado-sc-unnaoit'
