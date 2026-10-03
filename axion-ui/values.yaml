@@ -11,7 +11,7 @@ container:
 
 image:
   repository: amitkkc01/axion-ui
-  tag: "2.1"
+  tag: "5e4a9e3"
   pullPolicy: IfNotPresent
 
 resources:
