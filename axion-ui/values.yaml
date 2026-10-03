@@ -60,3 +60,6 @@ ingress:
             port: 80
 
 
+API_BASE:
+    url: "http://dev.telemetry.theakkc.space"
+
