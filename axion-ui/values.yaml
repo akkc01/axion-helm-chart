@@ -10,8 +10,8 @@ container:
   port: 80
 
 image:
-  repository: amitkkc01/axion-ui
-  tag: "5e4a9e3"
+  repository: amitkkc01/axion-ui-arm64
+  tag: "5.0.1"
   pullPolicy: IfNotPresent
 
 resources:
