@@ -1353,18 +1353,3 @@ This provides a single Helm release for the complete Axion application stack.
 
 Cloud / DevOps / Kubernetes / Helm Project
 
-### Save it
-
-From your chart root:
-
-```bash
-nano README.md
-```
-
-Paste the README above, save, then:
-
-```bash
-git add README.md
-git commit -m "Add Helm deployment documentation"
-git push
-```
