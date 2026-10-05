@@ -1,0 +1,31 @@
+apiVersion: v2
+name: axion-app
+description: Axion application umbrella chart
+type: application
+version: 1.0.0
+
+dependencies:
+
+  - name: ui-chart
+    version: 1.0.0
+    repository: "file://charts/ui-chart"
+
+  - name: telemetry-chart
+    version: 1.0.0
+    repository: "file://charts/telemetry-chart"
+
+  - name: simulator-chart
+    version: 1.0.0
+    repository: "file://charts/simulator-chart"
+
+  - name: ingestion-chart
+    version: 1.0.0
+    repository: "file://charts/ingestion-chart"
+
+  - name: postgres-db-chart
+    version: 1.0.0
+    repository: "file://charts/postgres-db-chart"
+
+  - name: pgadmin-chart
+    version: 1.0.0
+    repository: "file://charts/pgadmin-chart"

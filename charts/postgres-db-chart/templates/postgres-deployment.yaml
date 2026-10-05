@@ -1,0 +1,109 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ include "postgres.deploymentName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.postgres.appName }}
+
+spec:
+  replicas: {{ .Values.postgres.replicas }}
+
+  selector:
+    matchLabels:
+      app: {{ .Values.postgres.appName }}
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.postgres.appName }}
+
+    spec:
+      containers:
+
+        - name: postgres
+
+          image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
+
+          imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
+
+          ports:
+            - name: postgres
+              containerPort: {{ .Values.postgres.service.targetPort }}
+              protocol: TCP
+
+          env:
+
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgres.secretName" . }}
+                  key: {{ .Values.postgres.secret.databaseKey }}
+
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgres.secretName" . }}
+                  key: {{ .Values.postgres.secret.usernameKey }}
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgres.secretName" . }}
+                  key: {{ .Values.postgres.secret.passwordKey }}
+
+            - name: PGDATA
+              value: {{ .Values.postgres.pgdata }}
+
+          resources:
+            {{- toYaml .Values.postgres.resources | nindent 12 }}
+
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
+
+            initialDelaySeconds: {{ .Values.postgres.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.postgres.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.postgres.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.postgres.readinessProbe.failureThreshold }}
+
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
+
+            initialDelaySeconds: {{ .Values.postgres.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.postgres.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.postgres.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.postgres.livenessProbe.failureThreshold }}
+
+          volumeMounts:
+
+            - name: postgres-data
+              mountPath: {{ .Values.postgres.persistence.mountPath }}
+
+            - name: postgres-init-sql
+              mountPath: {{ .Values.postgres.initSql.mountPath }}
+
+      volumes:
+{{/*
+        # - name: postgres-data
+        #   persistentVolumeClaim:
+        #     claimName: {{ include "postgres.pvcName" . }}
+*/}}
+        # removed persistent volume claim for local development, using emptyDir instead        
+        - name: postgres-data
+          emptyDir: {}
+
+        - name: postgres-init-sql
+          configMap:
+            name: {{ include "postgres.configMapName" . }}
+
+{{- end }}

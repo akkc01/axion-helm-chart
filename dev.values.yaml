@@ -1,0 +1,29 @@
+postgres:
+  enabled: true
+
+telemetry:
+  enabled: true
+
+
+axion-ui:
+  replicaCount: 1
+  image:
+    tag: "5.0.1"
+
+axion-telemetry:
+  replicaCount: 1
+  image:
+    tag: "5.0.1"
+
+axion-simulator:
+  replicaCount: 1
+  image:
+    tag: "5.0.1"
+
+axion-ingestion:
+  replicaCount: 1
+  image:
+    tag: "5.0.1"
+
+global:
+  telemetryServiceUrl: http://localhost:9595

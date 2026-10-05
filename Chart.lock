@@ -1,0 +1,21 @@
+dependencies:
+- name: ui-chart
+  repository: file://charts/ui-chart
+  version: 1.0.0
+- name: telemetry-chart
+  repository: file://charts/telemetry-chart
+  version: 1.0.0
+- name: simulator-chart
+  repository: file://charts/simulator-chart
+  version: 1.0.0
+- name: ingestion-chart
+  repository: file://charts/ingestion-chart
+  version: 1.0.0
+- name: postgres-db-chart
+  repository: file://charts/postgres-db-chart
+  version: 1.0.0
+- name: pgadmin-chart
+  repository: file://charts/pgadmin-chart
+  version: 1.0.0
+digest: sha256:42b2e406cd4e039ccb65bb0959528c4ced8a93e09b1bd199ae57bd2ef72723f3
+generated: "2026-10-05T20:04:51.284007+05:30"

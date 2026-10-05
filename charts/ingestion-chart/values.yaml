@@ -1,0 +1,66 @@
+database:
+  postgresUser: jarvis
+  postgresPassword: jarvis12345
+  postgresDbName: jarvis-db
+  port: 5432
+
+labels:
+  app: ingestion
+
+
+# Deployment
+replicaCount: 1
+
+image:
+  repository: amitkkc01/ingestion-arm64
+  tag: "5.0.1"
+  pullPolicy: IfNotPresent
+
+container:
+  name: ingestion-container
+  port: 8000
+
+# Service
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+# Resources
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+# HPA
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# Ingress
+ingress:
+  enabled: true
+
+  ingressClassName: azure-application-gateway
+
+  annotations:
+    appgw.ingress.kubernetes.io/health-probe-path: "/health"
+    appgw.ingress.kubernetes.io/ssl-redirect: "false"
+
+
+  hosts:
+    - host: dev.ingest.theakkc.space
+      paths:
+        - path: "/"
+          pathType: Prefix
+          service:
+            port: 80
+
+# database:
+#   url: "postgresql://jarvis:jarvis123@dev-axion-postgres-svc:5432/jarvis"
