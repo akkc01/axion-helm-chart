@@ -8,13 +8,8 @@ container:
   port: 80
 
 image:
-<<<<<<< HEAD:axion-ui/values.yaml
-  repository: amitkkc01/axion-ui-arm64
-  tag: "5.0.1"
-=======
   repository: amitkkc01/axion-ui
   tag: "5e4a9e3"
->>>>>>> 1c7f234 (helm updated):charts/ui-chart/dev.values.yaml
   pullPolicy: IfNotPresent
 
 resources:
@@ -62,11 +57,6 @@ ingress:
             port: 80
 
 
-<<<<<<< HEAD:axion-ui/values.yaml
-API_BASE:
-    url: "http://dev.telemetry.theakkc.space"
-=======
 # API_BASE:
 #     url: "http://dev.telemetry.theakkc.space"
->>>>>>> 1c7f234 (helm updated):charts/ui-chart/dev.values.yaml
 
