@@ -176,7 +176,7 @@ kubectl config current-context
 Clone the Helm repository:
 
 ```bash
-git clone https://github.com/<YOUR_USERNAME>/axion-app-helm.git
+git clone https://github.com/akkc01/axion-app-helm.git
 ```
 
 Enter the directory:
